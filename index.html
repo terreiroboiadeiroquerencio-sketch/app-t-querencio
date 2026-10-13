@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>App T.Querêncio</title>
+    
+    <!-- PWA MANIFEST & MOBILE THEME -->
+    <meta name="theme-color" content="#080d1a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="App T.Querêncio">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/60wpJ3xG/Logo-terreiro.jpg">
+    
+    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Terreiro%20Boiadeiro%20Quer%C3%AAncio%20da%20Mata%20e%20Caboclo%207%20Flechas%22%2C%22short_name%22%3A%22App%20T.Quer%C3%AAncio%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23080d1a%22%2C%22theme_color%22%3A%22%23080d1a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fi.ibb.co%2F60wpJ3xG%2FLogo-terreiro.jpg%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fjpeg%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fi.ibb.co%2F60wpJ3xG%2FLogo-terreiro.jpg%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fjpeg%22%7D%5D%7D">
+
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body {
+            background-color: #080d1a;
+            color: #f3f4f6;
+            margin: 0;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* BANNER DE INSTALAÇÃO PWA */
+        #pwa-install-banner {
+            display: none;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #000;
+            width: 100%;
+            max-width: 500px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+        }
+        #pwa-install-banner button {
+            background: #080d1a;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* HEADER FIXO DO APP */
+        .header-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            text-align: center;
+            background: #111827;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 2px solid #d4af37;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+        }
+        .header-logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 2px solid #d4af37;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .header-titles h1 { color: #d4af37; margin: 0; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
+        .header-titles p { color: #10b981; font-size: 0.75rem; margin: 3px 0 0 0; font-weight: bold; }
+
+        /* CONTAINER DAS TELAS */
+        .app-panel {
+            background: #111827;
+            border: 1px solid #374151;
+            border-radius: 12px;
+            padding: 16px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+        }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        /* BOTÃO VOLTAR */
+        .btn-back {
+            background: #1f2937;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* GRID DE PASTAS (MENU PRINCIPAL) */
+        .folders-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .folder-card {
+            background: #1f2937;
+            border: 2px solid #374151;
+            border-radius: 10px;
+            padding: 16px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .folder-card:hover, .folder-card:active {
+            border-color: #d4af37;
+            background: #2b374a;
+            transform: translateY(-2px);
+        }
+        .folder-icon { font-size: 1.8rem; }
+        .folder-title { font-size: 0.8rem; font-weight: bold; color: #f3f4f6; }
+
+        /* ESTILOS DE CONTEÚDO */
+        .content-box {
+            background: #0b131f;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 16px;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            color: #d1d5db;
+        }
+        .content-box h2 { color: #d4af37; margin-top: 0; font-size: 1.1rem; text-align: center; border-bottom: 1px solid #374151; padding-bottom: 8px; }
+        .content-box p { margin-bottom: 12px; text-align: justify; }
+
+        /* EMBED DA PLANILHA DE ESTATÍSTICAS */
+        .stats-iframe-container {
+            width: 100%;
+            height: 480px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #374151;
+            background: #ffffff;
+        }
+        .stats-iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* BOTÃO AÇÃO DIRETA (WHATSAPP) */
+        .btn-action {
+            background: #10b981;
+            color: #0b131f;
+            border: none;
+            padding: 14px 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            width: 100%;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        /* LISTA DE SUBPASTAS */
+        .subfolder-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .subfolder-item {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-weight: bold;
+            color: #e5e7eb;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .subfolder-item:hover, .subfolder-item:active {
+            border-color: #d4af37;
+            background: #2d3748;
+            color: #d4af37;
+        }
+        .subfolder-item span { display: flex; align-items: center; gap: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- BANNER DE INSTALAÇÃO DO APP (PWA) -->
+    <div id="pwa-install-banner">
+        <span>📲 Instale o App T.Querêncio na Tela Inicial!</span>
+        <button id="btn-install-pwa">Instalar</button>
+    </div>
+
+    <!-- CABEÇALHO OFICIAL DO TERREIRO -->
+    <div class="header-container">
+        <img src="https://i.ibb.co/60wpJ3xG/Logo-terreiro.jpg" class="header-logo" alt="Logo Terreiro">
+        <div class="header-titles">
+            <h1>Terreiro Boiadeiro Querêncio da Mata e Caboclo 7 Flechas</h1>
+                    </div>
+    </div>
+
+    <div class="app-panel">
+
+        <!-- TELA 1: MENU PRINCIPAL (PASTAS) -->
+        <div id="screen-main" class="screen active">
+            <div class="folders-grid">
+                <div class="folder-card" onclick="navTo('screen-historia')">
+                    <div class="folder-icon">📖</div>
+                    <div class="folder-title">Nossa História</div>
+                </div>
+
+                <div class="folder-card" onclick="navTo('screen-oraculo')">
+                    <div class="folder-icon">🔮</div>
+                    <div class="folder-title">Oráculo de Exu</div>
+                </div>
+
+                <div class="folder-card" onclick="navTo('screen-fotos')">
+                    <div class="folder-icon">📸</div>
+                    <div class="folder-title">Galeria de Fotos</div>
+                </div>
+
+                <a href="https://photos.app.goo.gl/nNBfWG4Dw8gRgqAt7" target="_blank" class="folder-card">
+                    <div class="folder-icon">📅</div>
+                    <div class="folder-title">Calendário</div>
+                </a>
+
+                <div class="folder-card" onclick="navTo('screen-estatisticas')">
+                    <div class="folder-icon">📊</div>
+                    <div class="folder-title">Estatísticas</div>
+                </div>
+
+                <a href="https://drive.google.com/drive/folders/1lbg1yvIbVj50Ob3-uoqZsrxHTiAC2NQ0?usp=sharing" target="_blank" class="folder-card">
+                    <div class="folder-icon">🎵</div>
+                    <div class="folder-title">Pontos Cantados</div>
+                </a>
+
+                <div class="folder-card" onclick="navTo('screen-jogos')" style="grid-column: span 2;">
+                    <div class="folder-icon">🎮</div>
+                    <div class="folder-title">Jogos da Casa</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 2: HISTÓRIA -->
+        <div id="screen-historia" class="screen">
+            <button class="btn-back" onclick="navTo('screen-main')">⬅ Voltar ao Menu</button>
+            <div class="content-box">
+                <h2>O Nascimento do Terreiro</h2>
+                <p>Em <strong>24 de julho de 2016</strong>, nascia o <em>Terreiro Boiadeiro Querêncio da Mata e Caboclo 7 Flechas</em>, fruto de uma caminhada de fé, ancestralidade, resistência e compromisso com a tradição.</p>
+                <p>Mais do que abrir as portas de um espaço sagrado, nascia uma casa destinada a acolher histórias, fortalecer vínculos e manter vivos os saberes transmitidos pelos que vieram antes de nós.</p>
+                <p>Desde então, cada gira, cada canto e cada ritual passaram a compor a história desse terreiro construída com dedicação, respeito e responsabilidade.</p>
+                <p>Uma história que segue sendo escrita por aqueles que fazem do terreiro não apenas um lugar de culto, mas um espaço de resistência, pertencimento, memória e continuidade ancestral.</p>
+            </div>
+        </div>
+
+        <!-- TELA 3: ORÁCULO DE EXU -->
+        <div id="screen-oraculo" class="screen">
+            <button class="btn-back" onclick="navTo('screen-main')">⬅ Voltar ao Menu</button>
+            <div class="content-box">
+                <h2>Oráculo de Exu</h2>
+                <p>Há perguntas que pedem coragem para serem feitas e caminhos que precisam ser compreendidos antes de qualquer decisão.</p>
+                <p>O Oráculo de Exu traz caminho, escuta e orientação, onde os búzios nos ajudam a refletir sobre questões da vida, seus movimentos, desafios e possibilidades.</p>
+                <p>Mais do que buscar respostas prontas, é sobre olhar para a própria caminhada com clareza, responsabilidade e sabedoria.</p>
+                
+                <p style="text-align: center; color: #d4af37; font-weight: bold; font-size: 1.1rem; margin-top: 15px;">Laroyê, Exu!</p>
+
+                <a href="https://wa.me/5511952149423?text=Ol%C3%A1%2C%20Vanessa!%20Quero%20agendar%20uma%20consulta%20com%20o%20Or%C3%A1culo%20de%20Exu!" target="_blank" class="btn-action">
+                    <span>📱 Clique aqui e agende sua consulta</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- TELA 4: SUBPASTA DE FOTOS -->
+        <div id="screen-fotos" class="screen">
+            <button class="btn-back" onclick="navTo('screen-main')">⬅ Voltar ao Menu</button>
+            <h3 style="color:#d4af37; margin-top:0; text-align:center;">Galeria de Fotos</h3>
+            
+            <div class="subfolder-list">
+                <a href="https://photos.app.goo.gl/Tuxvfxmiz6zFtuAv9" target="_blank" class="subfolder-item">
+                    <span>📁 Álbum 1</span> ➔
+                </a>
+
+                <a href="https://photos.app.goo.gl/nzKi9BpHKvpc3GXF8" target="_blank" class="subfolder-item">
+                    <span>📁 Álbum 2</span> ➔
+                </a>
+
+                <a href="https://photos.app.goo.gl/mMPzHdkbo1Drbrmz5" target="_blank" class="subfolder-item">
+                    <span>📁 Álbum 3</span> ➔
+                </a>
+            </div>
+        </div>
+
+        <!-- TELA 5: ESTATÍSTICAS EMBUTIDAS (SEM PEDIR LOGIN) -->
+        <div id="screen-estatisticas" class="screen">
+            <button class="btn-back" onclick="navTo('screen-main')">⬅ Voltar ao Menu</button>
+            <h3 style="color:#d4af37; margin-top:0; text-align:center;">Estatísticas das Giras</h3>
+            
+            <div class="stats-iframe-container">
+                <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQXR4J3SHOPO7Wa3KF0bqU7-YXfzjhMn-r5MIlNRJK8a7HIFxbBCJRoH0x0FRW5ag/pubhtml?gid=1941475351&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+            </div>
+        </div>
+
+        <!-- TELA 6: SUBPASTA DE JOGOS -->
+        <div id="screen-jogos" class="screen">
+            <button class="btn-back" onclick="navTo('screen-main')">⬅ Voltar ao Menu</button>
+            <h3 style="color:#d4af37; margin-top:0; text-align:center;">Jogos e Simuladores Doutrinários</h3>
+            
+            <div class="subfolder-list">
+                <a href="https://jogodomilhaodoterreiro.netlify.app" target="_blank" class="subfolder-item">
+                    <span>🏆 Show do Milhão (Quiz)</span> ➔
+                </a>
+
+                <a href="https://superentidadesworld.netlify.app" target="_blank" class="subfolder-item">
+                    <span>🏃 A Jornada do Médium (Plataforma)</span> ➔
+                </a>
+
+                <a href="https://encontreaservas.netlify.app" target="_blank" class="subfolder-item">
+                    <span>🌿 O Atendimento (Caça às Ervas)</span> ➔
+                </a>
+
+                <a href="https://jogo-memoria-terreiro.netlify.app" target="_blank" class="subfolder-item">
+                    <span>🃏 Jogo da Memória dos Guias</span> ➔
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // NAVEGAÇÃO ENTRE TELAS
+        function navTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // LÓGICA DE INSTALAÇÃO DO PWA (PROGRESSIVE WEB APP)
+        let deferredPrompt;
+        const installBanner = document.getElementById('pwa-install-banner');
+        const installBtn = document.getElementById('btn-install-pwa');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.style.display = 'flex';
+        });
+
+        installBtn.addEventListener('click', () => {
+            installBanner.style.display = 'none';
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    deferredPrompt = null;
+                });
+            }
+        });
+
+        // REGISTRO DE SERVICE WORKER FAKE PARA HABILITAR PWA
+        if ('serviceWorker' in navigator) {
+            const swCode = `self.addEventListener('fetch', function(e) {});`;
+            const blob = new Blob([swCode], { type: 'text/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl).catch(err => console.log(err));
+        }
+    </script>
+</body>
+</html>
