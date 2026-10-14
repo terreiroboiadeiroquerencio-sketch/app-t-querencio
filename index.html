@@ -58,7 +58,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             text-align: center;
             background: #111827;
             padding: 12px 16px;
@@ -78,6 +78,61 @@
         }
         .header-titles h1 { color: #d4af37; margin: 0; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
         .header-titles p { color: #10b981; font-size: 0.75rem; margin: 3px 0 0 0; font-weight: bold; }
+
+        /* CRONÔMETRO DA PRÓXIMA GIRA */
+        .gira-timer-card {
+            background: linear-gradient(145deg, #1f2937, #0f172a);
+            border: 2px solid #d4af37;
+            border-radius: 12px;
+            padding: 14px 12px;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 16px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+        }
+        .gira-timer-header {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .gira-timer-title {
+            color: #d4af37;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        .gira-timer-date {
+            color: #10b981;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .timer-grid {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        .timer-box {
+            background: #080d1a;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 6px 10px;
+            min-width: 60px;
+        }
+        .timer-num {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f3f4f6;
+            font-family: monospace;
+        }
+        .timer-label {
+            font-size: 0.65rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
 
         /* CONTAINER DAS TELAS */
         .app-panel {
@@ -231,6 +286,32 @@
                     </div>
     </div>
 
+    <!-- CRONÔMETRO DA PRÓXIMA GIRA -->
+    <div class="gira-timer-card">
+        <div class="gira-timer-header">⏳ Próxima Gira</div>
+        <div class="gira-timer-title" id="gira-nome">Gira de Pretos Velhos e Malandros</div>
+        <div class="gira-timer-date" id="gira-data-texto">Sábado, 24/10/2026 às 19:00h</div>
+        
+        <div class="timer-grid">
+            <div class="timer-box">
+                <div class="timer-num" id="t-dias">00</div>
+                <div class="timer-label">Dias</div>
+            </div>
+            <div class="timer-box">
+                <div class="timer-num" id="t-horas">00</div>
+                <div class="timer-label">Horas</div>
+            </div>
+            <div class="timer-box">
+                <div class="timer-num" id="t-min">00</div>
+                <div class="timer-label">Min</div>
+            </div>
+            <div class="timer-box">
+                <div class="timer-num" id="t-seg">00</div>
+                <div class="timer-label">Seg</div>
+            </div>
+        </div>
+    </div>
+
     <div class="app-panel">
 
         <!-- TELA 1: MENU PRINCIPAL (PASTAS) -->
@@ -309,20 +390,20 @@
             
             <div class="subfolder-list">
                 <a href="https://photos.app.goo.gl/Tuxvfxmiz6zFtuAv9" target="_blank" class="subfolder-item">
-                    <span>📁 Consagração Quartinha 2022</span> ➔
+                    <span>📁 Álbum 1</span> ➔
                 </a>
 
                 <a href="https://photos.app.goo.gl/nzKi9BpHKvpc3GXF8" target="_blank" class="subfolder-item">
-                    <span>📁 Obrigação Esquerda 2022</span> ➔
+                    <span>📁 Álbum 2</span> ➔
                 </a>
 
                 <a href="https://photos.app.goo.gl/mMPzHdkbo1Drbrmz5" target="_blank" class="subfolder-item">
-                    <span>📁 Festa Erês 2026</span> ➔
+                    <span>📁 Álbum 3</span> ➔
                 </a>
             </div>
         </div>
 
-        <!-- TELA 5: ESTATÍSTICAS EMBUTIDAS (SEM PEDIR LOGIN) -->
+        <!-- TELA 5: ESTATÍSTICAS EMBUTIDAS -->
         <div id="screen-estatisticas" class="screen">
             <button class="btn-back" onclick="navTo('screen-main')">⬅ Voltar ao Menu</button>
             <h3 style="color:#d4af37; margin-top:0; text-align:center;">Estatísticas das Giras</h3>
@@ -366,6 +447,39 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // LÓGICA DO CRONÔMETRO DA GIRA
+        // ======================================================
+        // PARA MUDAR A PRÓXIMA GIRA NO FUTURO, BASTA ALTERAR ABAIXO:
+        const DATA_PROXIMA_GIRA = "2026-10-24T19:00:00"; 
+        // ======================================================
+
+        function atualizarCronometro() {
+            const agora = new Date().getTime();
+            const alvo = new Date(DATA_PROXIMA_GIRA).getTime();
+            const diferenca = alvo - agora;
+
+            if (diferenca > 0) {
+                const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const min = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+                const seg = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+                document.getElementById('t-dias').innerText = String(dias).padStart(2, '0');
+                document.getElementById('t-horas').innerText = String(horas).padStart(2, '0');
+                document.getElementById('t-min').innerText = String(min).padStart(2, '0');
+                document.getElementById('t-seg').innerText = String(seg).padStart(2, '0');
+            } else {
+                document.getElementById('t-dias').innerText = "00";
+                document.getElementById('t-horas').innerText = "00";
+                document.getElementById('t-min').innerText = "00";
+                document.getElementById('t-seg').innerText = "00";
+                document.querySelector('.gira-timer-header').innerText = "✨ Gira Acontecendo Hoje!";
+            }
+        }
+
+        setInterval(atualizarCronometro, 1000);
+        atualizarCronometro();
+
         // LÓGICA DE INSTALAÇÃO DO PWA (PROGRESSIVE WEB APP)
         let deferredPrompt;
         const installBanner = document.getElementById('pwa-install-banner');
@@ -387,7 +501,7 @@
             }
         });
 
-        // REGISTRO DE SERVICE WORKER FAKE PARA HABILITAR PWA
+        // REGISTRO DE SERVICE WORKER PARA PWA
         if ('serviceWorker' in navigator) {
             const swCode = `self.addEventListener('fetch', function(e) {});`;
             const blob = new Blob([swCode], { type: 'text/javascript' });
