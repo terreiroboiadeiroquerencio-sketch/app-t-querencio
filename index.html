@@ -206,21 +206,6 @@
         .content-box h2 { color: #d4af37; margin-top: 0; font-size: 1.1rem; text-align: center; border-bottom: 1px solid #374151; padding-bottom: 8px; }
         .content-box p { margin-bottom: 12px; text-align: justify; }
 
-        /* EMBED DA PLANILHA DE ESTATÍSTICAS */
-        .stats-iframe-container {
-            width: 100%;
-            height: 480px;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #374151;
-            background: #ffffff;
-        }
-        .stats-iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
         /* BOTÃO AÇÃO DIRETA (WHATSAPP) */
         .btn-action {
             background: #10b981;
@@ -340,10 +325,10 @@
                     <div class="folder-title">Calendário</div>
                 </a>
 
-                <div class="folder-card" onclick="navTo('screen-estatisticas')">
+                <a href="https://docs.google.com/spreadsheets/d/1IUbpV7lSsVm9C4ljiAmyctn9QQSz19nL/edit?usp=sharing&ouid=100644883374167646790&rtpof=true&sd=true" target="_blank" class="folder-card">
                     <div class="folder-icon">📊</div>
                     <div class="folder-title">Estatísticas</div>
-                </div>
+                </a>
 
                 <div class="folder-card" onclick="navTo('screen-pontos')">
                     <div class="folder-icon">🎵</div>
@@ -382,20 +367,6 @@
 
                 <a href="https://wa.me/5511952149423?text=Ol%C3%A1%2C%20Vanessa!%20Quero%20agendar%20uma%20consulta%20com%20o%20Or%C3%A1culo%20de%20Exu!" target="_blank" class="btn-action">
                     <span>📱 Clique aqui e agende sua consulta</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- TELA 5: ESTATÍSTICAS DAS GIRAS -->
-        <div id="screen-estatisticas" class="screen">
-            <button class="btn-back" onclick="navTo('screen-main')">⬅ Voltar ao Menu</button>
-            <div class="content-box">
-                <h2>Estatísticas das Giras</h2>
-                <p>Acompanhe os dados, presenças, números e histórico das giras do nosso terreiro.</p>
-                
-                <a href="https://docs.google.com/spreadsheets/d/1IUbpV7lSsVm9C4ljiAmyctn9QQSz19nL/edit?usp=sharing&ouid=100644883374167646790&rtpof=true&sd=true" target="_blank" class="folder-card">
-                    <div class="folder-icon">📊</div>
-                    <div class="folder-title">Estatísticas</div>
                 </a>
             </div>
         </div>
