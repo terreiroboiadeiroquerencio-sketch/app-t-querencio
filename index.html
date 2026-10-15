@@ -246,19 +246,22 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            max-height: 450px;
+            overflow-y: auto;
+            padding-right: 4px;
         }
         .subfolder-item {
             background: #1f2937;
             border: 1px solid #374151;
             border-radius: 8px;
-            padding: 14px 16px;
+            padding: 12px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
             font-weight: bold;
             color: #e5e7eb;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             text-decoration: none;
             transition: all 0.2s;
         }
@@ -283,7 +286,8 @@
         <img src="https://i.ibb.co/60wpJ3xG/Logo-terreiro.jpg" class="header-logo" alt="Logo Terreiro">
         <div class="header-titles">
             <h1>Terreiro Boiadeiro Querêncio da Mata e Caboclo 7 Flechas</h1>
-                    </div>
+            <p>Desde 24 de Julho de 2016</p>
+        </div>
     </div>
 
     <!-- CRONÔMETRO DA PRÓXIMA GIRA -->
@@ -342,10 +346,10 @@
                     <div class="folder-title">Estatísticas</div>
                 </div>
 
-                <a href="https://drive.google.com/drive/folders/1lbg1yvIbVj50Ob3-uoqZsrxHTiAC2NQ0?usp=sharing" target="_blank" class="folder-card">
+                <div class="folder-card" onclick="navTo('screen-pontos')">
                     <div class="folder-icon">🎵</div>
                     <div class="folder-title">Pontos Cantados</div>
-                </a>
+                </div>
 
                 <div class="folder-card" onclick="navTo('screen-jogos')" style="grid-column: span 2;">
                     <div class="folder-icon">🎮</div>
@@ -377,13 +381,13 @@
                 
                 <p style="text-align: center; color: #d4af37; font-weight: bold; font-size: 1.1rem; margin-top: 15px;">Laroyê, Exu!</p>
 
-                <a href="https://wa.me/5511952149423?text=Ol%C3%A1%2C%20Vanessa!%20Quero%20agendar%20uma%20consulta%20com%20o%20Or%C3%A1culo%20de%20Exu!" target="_blank" class="btn-action">
+                <a href="https://wa.me/5511952149988?text=Ol%C3%A1%2C%20Vanessa!%20Quero%20agendar%20uma%20consulta%20com%20o%20Or%C3%A1culo%20de%20Exu!" target="_blank" class="btn-action">
                     <span>📱 Clique aqui e agende sua consulta</span>
                 </a>
             </div>
         </div>
 
-        <!-- TELA 4: SUBPASTA DE FOTOS -->
+        <!-- TELA 4: SUBPASTA DE FOTOS (COM NOMES ATUALIZADOS) -->
         <div id="screen-fotos" class="screen">
             <button class="btn-back" onclick="navTo('screen-main')">⬅ Voltar ao Menu</button>
             <h3 style="color:#d4af37; margin-top:0; text-align:center;">Galeria de Fotos</h3>
@@ -413,25 +417,91 @@
             </div>
         </div>
 
-        <!-- TELA 6: SUBPASTA DE JOGOS -->
+        <!-- TELA 6: SUBPASTA DE PONTOS CANTADOS (ORDEM ALFABÉTICA) -->
+        <div id="screen-pontos" class="screen">
+            <button class="btn-back" onclick="navTo('screen-main')">⬅ Voltar ao Menu</button>
+            <h3 style="color:#d4af37; margin-top:0; text-align:center;">Pontos Cantados</h3>
+            
+            <div class="subfolder-list">
+                <a href="https://docs.google.com/document/d/1sOQwdScbHew_092uunUsxYXDZtT_mxNb6TAAub1DT-A/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Abertura</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1oRSgc2YwX40thgYES6i4i-QsIfjlHW1X2vimCGx03Ws/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Baianos</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/17efe3xU3zYWkwQ9F62B_bGlhQL9awjT2wxrnYBd1v4k/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Boiadeiro</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1TlW6zdF3MRWduvjHO4xGec9jU_jjQqKzZRml1TOCC74/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Caboclos</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/12K-ONpR65nmJ-29P6hAS-hi8J5qUtNE3uEl8qb3KleM/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Ciganos</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1TuSyzF50_lqc1Ck2rAaZyxIWWcl2Q_mh/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Erê</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1lzyC2Id9XBvEK6Il_mJ0A3V1pMRvKkITNwe_bwxxqeM/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Exu</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1T1VIqUbIpMwkKiulDt5SpGP-RKpPIxaxDQewxh-3boc/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Iansã</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1eYBB9dvuxT0ZHer1OQjK9MPyh940s0ZQWUg2Jv2AQks/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Iemanjá</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/10I3h549XjxDolNych_HjR0ufbTR-Py5_Ypw8mOAf3EI/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Malandros</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1Aw4XnREe68fuvaYNCOvkebwTKlA7Qv4ivg3Gqxcvxpc/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Marinheiros</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/14uyEdSFyHpfiwlx633kfN_WJB_lsA77GPV78i5EZd1c/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Nanã</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/15p2a0lxp_Tz5_wuU2CeYFxnAoXeTJ0KcZ0l1_Izz7eI/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Obaluaê</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1E-OCL5ZPdMwTwedweKtK0u77Ta1vJh5P9vbnwH61vOY/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Ogum</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1CytJbxz635fz3vRu2UztUzKhFxHTsN6ZEQgE6_HxxwQ/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Oxalá</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1OINBJev2BdfpA6WoUNAghmKeXqVFootQtGPYqnF7fP8/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Oxum</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1LWIQyAV7TOdc2EB1em-_zG_38Iz149sKNwtxMkYxt-U/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Pomba-gira</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1IZPDdC5NalhXtAvVO7jcHWV5RmUVksSH/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Pretos-velhos</span> ➔
+                </a>
+                <a href="https://docs.google.com/document/d/1GgtFwn-l8EgWQnKGH8JR3mWqAcz4amJMJ8eShF37HoE/preview" target="_blank" class="subfolder-item">
+                    <span>📜 Xangô</span> ➔
+                </a>
+            </div>
+        </div>
+
+        <!-- TELA 7: SUBPASTA DE JOGOS (COM OS NOVOS LINKS DO GITHUB PAGES) -->
         <div id="screen-jogos" class="screen">
             <button class="btn-back" onclick="navTo('screen-main')">⬅ Voltar ao Menu</button>
             <h3 style="color:#d4af37; margin-top:0; text-align:center;">Jogos e Simuladores Doutrinários</h3>
             
             <div class="subfolder-list">
-                <a href="https://jogodomilhaodoterreiro.netlify.app" target="_blank" class="subfolder-item">
+                <a href="https://terreiroboiadeiroquerencio-sketch.github.io/jogodomilhaodoterreiro/" target="_blank" class="subfolder-item">
                     <span>🏆 Show do Milhão (Quiz)</span> ➔
                 </a>
 
-                <a href="https://superentidadesworld.netlify.app" target="_blank" class="subfolder-item">
+                <a href="https://terreiroboiadeiroquerencio-sketch.github.io/superentidadesworld/" target="_blank" class="subfolder-item">
                     <span>🏃 A Jornada do Médium (Plataforma)</span> ➔
                 </a>
 
-                <a href="https://encontreaservas.netlify.app" target="_blank" class="subfolder-item">
+                <a href="https://terreiroboiadeiroquerencio-sketch.github.io/encontreservas/" target="_blank" class="subfolder-item">
                     <span>🌿 O Atendimento (Caça às Ervas)</span> ➔
                 </a>
 
-                <a href="https://jogo-memoria-terreiro.netlify.app" target="_blank" class="subfolder-item">
+                <a href="https://terreiroboiadeiroquerencio-sketch.github.io/jogo-memoria-terreiro/" target="_blank" class="subfolder-item">
                     <span>🃏 Jogo da Memória dos Guias</span> ➔
                 </a>
             </div>
@@ -448,10 +518,7 @@
         }
 
         // LÓGICA DO CRONÔMETRO DA GIRA
-        // ======================================================
-        // PARA MUDAR A PRÓXIMA GIRA NO FUTURO, BASTA ALTERAR ABAIXO:
         const DATA_PROXIMA_GIRA = "2026-10-24T19:00:00"; 
-        // ======================================================
 
         function atualizarCronometro() {
             const agora = new Date().getTime();
@@ -480,7 +547,7 @@
         setInterval(atualizarCronometro, 1000);
         atualizarCronometro();
 
-        // LÓGICA DE INSTALAÇÃO DO PWA (PROGRESSIVE WEB APP)
+        // LÓGICA DE INSTALAÇÃO DO PWA
         let deferredPrompt;
         const installBanner = document.getElementById('pwa-install-banner');
         const installBtn = document.getElementById('btn-install-pwa');
